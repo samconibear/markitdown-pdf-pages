@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "markitdown-pdf-pages"
+dynamic = ["version"]
+description = "A MarkItDown plugin that converts PDFs to markdown on a per-page basis with page numbers."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+keywords = ["markitdown", "pdf", "markdown", "plugin"]
+dependencies = [
+  "markitdown>=0.1.0a1",
+  "pdfplumber",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "fpdf2",
+]
+
+[tool.hatch.version]
+path = "markitdown_pdf_pages/__about__.py"
+
+# IMPORTANT: MarkItDown will look for this entry point to find the plugin.
+[project.entry-points."markitdown.plugin"]
+markitdown_pdf_pages = "markitdown_pdf_pages"
+
+[tool.hatch.build.targets.sdist]
+only-include = ["markitdown_pdf_pages"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["markitdown_pdf_pages"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source_pkgs = ["markitdown_pdf_pages", "tests"]
+branch = true
+parallel = true
+omit = [
+  "markitdown_pdf_pages/__about__.py",
+]
+
+[tool.coverage.paths]
+markitdown_pdf_pages = ["markitdown_pdf_pages", "*/markitdown-pdf-pages/markitdown_pdf_pages"]
+tests = ["tests", "*/markitdown-pdf-pages/tests"]
