@@ -17,12 +17,6 @@ markitdown --list-plugins
 
 ## Usage
 
-### Command line
-
-```bash
-markitdown --use-plugins document.pdf
-```
-
 ### Python
 
 ```python
