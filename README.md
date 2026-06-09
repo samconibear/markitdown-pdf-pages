@@ -45,9 +45,9 @@ print(result.markdown)
 
 ## Use case: RAG pipelines
 
-Most PDF converters return a single block of text, which is too coarse for retrieval-augmented generation (RAG). Splitting that block into fixed-size chunks loses structural information — a chunk boundary might land mid-sentence, or merge content from two unrelated sections.
+A core challenge in RAG is **source notability** — when the system returns an answer, users need to know exactly where it came from so they can verify it. A filename alone isn't enough for long documents; you need a page number.
 
-Pages are a natural chunk boundary. They match how humans reference documents (*"see page 12"*), and they tend to contain one coherent topic. This plugin exposes page numbers as first-class metadata, so each page can be stored as a discrete vector with a citable source:
+This plugin attaches a page number to every chunk at extraction time, so the reference is never lost as content flows through your pipeline:
 
 ```python
 from markitdown import MarkItDown
@@ -56,17 +56,17 @@ from your_vector_store import embed_and_upsert
 md = MarkItDown(enable_plugins=True)
 result = md.convert("report.pdf")
 
-for page in result.markdown_with_pages:   # streams lazily — memory-efficient
+for page in result.markdown_with_pages:
     embed_and_upsert(
         text=page["markdown"],
         metadata={
             "source": "report.pdf",
-            "page": page["page_number"],  # store for retrieval and citation
+            "page": page["page_number"],  # cited in every retrieval result
         }
     )
 ```
 
-When a query retrieves a chunk, the page number travels with it, so the system can tell the user exactly where to look. This is especially valuable in domains where citations matter — legal, compliance, technical manuals, academic research — but useful any time you want users to be able to verify an AI-generated answer against the source document.
+When a retrieved chunk is used to generate an answer, the page number surfaces as a citation — *"report.pdf, p. 12"* — so users can go directly to the source. This matters most in domains where trust and verifiability are non-negotiable: legal, compliance, technical documentation, and academic research.
 
 ## How it works
 
