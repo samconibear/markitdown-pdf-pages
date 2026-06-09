@@ -8,11 +8,6 @@ A [MarkItDown](https://github.com/microsoft/markitdown) plugin that converts PDF
 pip install git+https://github.com/samconibear/markitdown-pdf-pages.git
 ```
 
-Or from local:
-```bash
-pip install -e .
-```
-
 
 Verify the plugin is installed:
 
@@ -40,6 +35,18 @@ result = md.convert("document.pdf")
 for page in result.markdown_with_pages:
     print(f"--- Page {page['page_number']} ---")
     print(page['markdown'])
+# Output:
+# --- Page 1 ---
+# This is the text from page one.
+# --- Page 2 ---
+# This is the text from page two.
+
+
+# The standard MarkItDown implementation still works the same
+print(result.markdown)
+# Output:
+# This is the text from page one.
+# This is the text from page two.
 ```
 
 ## How it works
