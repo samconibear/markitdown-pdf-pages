@@ -43,7 +43,8 @@ print(result.markdown)
 ```
 
 ## Use in RAG pipelines
-A core challenge in Retrieval Augmented Generation (RAG) is source transparency - when a system returns an answer, users need to know exactly where it came from.This is especially critical in domains where trust and verifiability are essential, such as legal, compliance, technical documentation, and academic research.
+A core challenge in Retrieval Augmented Generation (RAG) is source transparency - when a system returns an answer, users need to know exactly where it came from. This is especially critical in domains where trust and verifiability are essential, such as legal, compliance, technical documentation, and academic research.
+
 This plugin attaches a page number to every chunk at extraction time, so the reference is never lost as content flows through your pipeline:
 ```python
 from markitdown import MarkItDown
@@ -62,6 +63,7 @@ for page in result.markdown_with_pages:
     )
 ```
 When a retrieved chunk is used to generate an answer, the page number surfaces as a citation.
+
 Pages can serve as natural chunking     boundaries, as they often contain a single coherent topic. For more complex documents, I suggest using a structure-aware splitter like LangChain's [MarkdownTextSplitter](https://docs.langchain.com/oss/python/integrations/splitters/markdown_header_metadata_splitter) which can create more accurate chunks based on document headings and sections.
 
 ## How it works
