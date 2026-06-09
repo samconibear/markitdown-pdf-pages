@@ -2,6 +2,8 @@
 
 A [MarkItDown](https://github.com/microsoft/markitdown) plugin that converts PDFs to markdown on a per-page basis, yielding each page's content along with its page number.
 
+Unlike MarkItDown’s built-in PDF converter, which returns a single block of text, this plugin preserves page boundaries as metadata — enabling the creation of pipelines that can cite specific pages in the source document.
+
 ## Installation
 
 ```bash
